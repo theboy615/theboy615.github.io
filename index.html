@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dastgir TV 3D</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08080a;color:#fff;font-family:system-ui,Arial}
+.header{background:linear-gradient(90deg,#e60000,#8b0000);padding:14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.header img{width:60px;height:60px;border-radius:14px;background:#000}
+.header h1{font-size:20px}
+.tabs{display:flex;gap:8px;justify-content:center;padding:12px;background:#101010}
+.tab{padding:8px 22px;background:#1e1e1e;border-radius:20px;cursor:pointer;border:1px solid #333}
+.tab.active{background:#e60000}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:14px}
+.card{background:#17171a;border-radius:14px;border:1px solid #26262a;overflow:hidden;cursor:pointer}
+.card .img{height:90px;display:flex;align-items:center;justify-content:center;font-size:42px;background:#212126}
+.card .name{padding:11px;text-align:center;font-weight:700;font-size:13px}
+.player{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:100;flex-direction:column}
+.video{flex:1;width:100%}
+.close{padding:14px;background:#e60000;color:#fff;border:none;font-size:17px;font-weight:700}
+.lock{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.lock-box{background:#15151a;padding:26px;border-radius:18px;text-align:center;border:2px solid #e60000;max-width:340px;width:100%}
+.lock-box a{display:block;background:#25D366;color:#fff;padding:13px;border-radius:26px;text-decoration:none;margin-top:14px;font-weight:700}
+.wa{position:fixed;bottom:18px;right:18px;background:#25D366;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;z-index:50}
+</style>
+</head>
+<body>
+<div class="header"><img src="icon.png"><div><h1>DASTGIR TV 3D</h1><div style="font-size:11px;opacity:.8">Jazz • Zong • All Networks</div></div></div>
+<div class="tabs"><div class="tab active" onclick="filterCh('all',this)">All</div><div class="tab" onclick="filterCh('jazz',this)">Jazz</div><div class="tab" onclick="filterCh('zong',this)">Zong</div></div>
+<div class="grid" id="grid"></div>
+<div class="player" id="player"><button class="close" onclick="closeP()">✕ CLOSE</button><video class="video" id="video" controls autoplay playsinline></video></div>
+<div class="lock" id="lock"><div class="lock-box"><h2>🔒 Verification</h2><p style="margin-top:8px;font-size:14px">WhatsApp Channel Follow karo</p><a href="https://whatsapp.com/channel/0029Vb6K1vG2UPB5rW5aR03j" target="_blank" onclick="setTimeout(unlock,1500)">📲 Follow Channel</a><button style="margin-top:12px;background:#222;color:#fff;border:1px solid #444;padding:9px 22px;border-radius:20px" onclick="unlock()">Already Followed - Unlock ✓</button></div></div>
+<a class="wa" href="https://whatsapp.com/channel/0029Vb6K1vG2UPB5rW5aR03j" target="_blank">💬</a>
+<script>
+const channels=[{name:"PTV Sports",emoji:"🏏",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"all"},{name:"Geo News",emoji:"📰",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"all"},{name:"ARY News",emoji:"📺",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"jazz"},{name:"Ten Sports",emoji:"⚽",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"zong"},{name:"Hum TV",emoji:"🎭",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"jazz"},{name:"A Sports",emoji:"🏆",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"zong"},{name:"PTV Home",emoji:"🏠",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"all"},{name:"Geo Kahani",emoji:"📖",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"jazz"},{name:"ARY Digital",emoji:"🎬",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"zong"},{name:"Dunya News",emoji:"🌍",url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",type:"all"}];
+const grid=document.getElementById('grid');
+function render(f='all'){grid.innerHTML='';channels.filter(c=>f==='all'||c.type===f||c.type==='all').forEach(ch=>{grid.innerHTML+=`<div class=card onclick=play('${ch.url}')><div class=img>${ch.emoji}</div><div class=name>${ch.name}</div></div>`});}
+function play(u){document.getElementById('player').style.display='flex';const v=document.getElementById('video');v.src=u;v.play();}
+function closeP(){document.getElementById('player').style.display='none';const v=document.getElementById('video');v.pause();v.src='';}
+function filterCh(t,el){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');render(t);}
+function unlock(){document.getElementById('lock').style.display='none';localStorage.setItem('dastgir_verified','yes');}
+if(localStorage.getItem('dastgir_verified')){document.getElementById('lock').style.display='none';}
+render();
+</script>
+</body>
+</html>
